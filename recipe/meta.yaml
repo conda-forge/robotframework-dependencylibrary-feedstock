@@ -9,27 +9,29 @@ source:
   sha256: d2382df03b9e47a27b35b417dc053fcde92c0e37d5165bb8a4e2a6b6ee7faa10
 
 build:
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 1
+  noarch: python
+  script:
+    - {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation --disable-pip-version-check
 
 requirements:
   host:
     - pip
     - python {{ python_min }}
     - robotframework
+    - setuptools
   run:
     - python >={{ python_min }}
     - robotframework
 
 test:
+  requires:
+    - pip
+    - python {{ python_min }}
   imports:
     - DependencyLibrary
   commands:
     - pip check
-  requires:
-    - pip
-    - python {{ python_min }}
 
 about:
   home: https://github.com/mentalisttraceur/robotframework-dependencylibrary
